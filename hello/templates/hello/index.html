@@ -9,11 +9,11 @@
 </head>
 
 <body>
-    <p>Welcome to the chatroom</p><br>
-    <textarea id="chat-log" cols="100" rows="20"></textarea><br><br><br>
+    <p>Hello, {{ nickname }}</p><br>
+    <div id="chat-log"></div><br><br><br>
     <input id="chat-message-input" type="text" size="100"><br>
     <input id="chat-message-submit" type="button" value="Send">
-        
+    <div id="nickname" style="display: none;">{{ nickname }}</div>
     {% load static %}
     <script type="text/javascript" src="{% static 'hello/chat.js' %}"></script>
 </body>
