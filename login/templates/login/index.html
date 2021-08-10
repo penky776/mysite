@@ -10,8 +10,9 @@
 
 <body>
     <form action="/hello/" method="POST">
-        {% csrf_token %} <input id="username" type="text" name="username" value="{{ current_username }}">
+        {% csrf_token %} <input id="username" type="text" name="username">
         {% csrf_token %} <input id="password" type="password" name="password">
+        {% csrf_token %} <input id="nickname" type="text" name="nickname">
         <input type="submit" value="OK">
     </form>
 </body>
