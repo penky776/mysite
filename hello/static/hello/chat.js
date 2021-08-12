@@ -8,7 +8,7 @@ if (nickname_value == "balgish") {
 }
 
 chatSocket.onmessage = function (e) {
-    const data = JSON.parse(e.data);    //change
+    const data = JSON.parse(e.data);
     document.getElementById('chat-log').innerHTML += (data.message + '<br>');
 };
 
@@ -26,9 +26,12 @@ document.querySelector('#chat-message-input').onkeyup = function (e) {
 document.querySelector('#chat-message-submit').onclick = function (e) {
     const messageInputDom = document.querySelector('#chat-message-input');
     const message = messageInputDom.value;
-    const message_combination = nickname + ": " + message;
-    chatSocket.send(JSON.stringify({
-        'message': message_combination
-    }));
-    messageInputDom.value = "";
+    if (message) {
+        const message_combination = nickname + ": " + message;
+        chatSocket.send(JSON.stringify({
+            'message': message_combination
+        }));
+        messageInputDom.value = "";
+        window.scrollTo(0, document.body.scrollHeight);
+    }
 };
