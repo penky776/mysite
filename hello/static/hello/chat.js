@@ -35,3 +35,16 @@ document.querySelector('#chat-message-submit').onclick = function (e) {
         window.scrollTo(0, document.body.scrollHeight);
     }
 };
+
+document.querySelector('#dark_mode').onclick = function (e) {
+    if (document.getElementById("dark_mode").innerHTML == "Dark") {
+        document.body.style.background = "black";
+        document.body.style.color = "white";
+        document.getElementById("dark_mode").innerHTML = "Light";
+    } else {
+        document.body.style.background = "white";
+        document.body.style.color = "black";
+        document.getElementById("dark_mode").innerHTML = "Dark"
+    }
+
+}

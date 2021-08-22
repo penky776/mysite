@@ -10,12 +10,15 @@
         #chat-log {
             font-size: 15px;
             overflow: hidden auto;
-
         }
 
         #chat-container {
             position: fixed;
             bottom: 10px;
+        }
+
+        #dark_mode:active {
+            background-color: lightyellow;
         }
     </style>
 </head>
@@ -26,6 +29,7 @@
     <div id="chat-container">
         <input id="chat-message-input" type="text" size="100">
         <input id="chat-message-submit" type="button" value="Send">
+        <button id="dark_mode">Dark</button>
     </div>
     <div id="nickname" style="display: none;">{{ nickname }}</div>
     {% load static %}
