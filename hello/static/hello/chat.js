@@ -9,7 +9,7 @@ if (nickname_value == "balgish") {
 
 chatSocket.onopen = function (e) {
     const message = nickname + " has logged in!";
-    console.log(message);
+    console.log(nickname_value + " has logged in!");
     chatSocket.send(JSON.stringify({
         'message': message
     }))
@@ -18,6 +18,7 @@ chatSocket.onopen = function (e) {
 chatSocket.onmessage = function (e) {
     const data = JSON.parse(e.data);
     document.getElementById('chat-log').innerHTML += (data.message + '<br>');
+    window.scrollTo(0, document.body.scrollHeight);
 };
 
 chatSocket.onclose = function (e) {
@@ -40,7 +41,6 @@ document.querySelector('#chat-message-submit').onclick = function (e) {
             'message': message_combination
         }));
         messageInputDom.value = "";
-        window.scrollTo(0, document.body.scrollHeight);
     }
 };
 
