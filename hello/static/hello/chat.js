@@ -7,6 +7,14 @@ if (nickname_value == "balgish") {
     var nickname = nickname_value.fontcolor("red")
 }
 
+chatSocket.onopen = function (e) {
+    const message = nickname + " has logged in!";
+    console.log(message);
+    chatSocket.send(JSON.stringify({
+        'message': message
+    }))
+};
+
 chatSocket.onmessage = function (e) {
     const data = JSON.parse(e.data);
     document.getElementById('chat-log').innerHTML += (data.message + '<br>');
