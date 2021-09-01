@@ -1,28 +1,25 @@
 const chatSocket = new WebSocket("ws://" + window.location.host + "/ws/hello/");
-const nickname_value = document.getElementById("nickname").innerHTML;
-
-if (nickname_value == "balgish") {
-    var nickname = nickname_value.fontcolor("blue")
-} else {
-    var nickname = nickname_value.fontcolor("red")
-}
 
 chatSocket.onopen = function (e) {
-    const message = nickname + " has logged in!";
+    const message = "<b>" + nickname + "<i> has logged in!</i></b><br>";
     console.log(nickname_value + " has logged in!");
     chatSocket.send(JSON.stringify({
         'message': message
-    }))
+    }));
+};
+
+chatSocket.onclose = function (e) {
+    const message = "<b>" + nickname + "<i> has logged out!</i></b><br>";
+    console.error('Chat socket closed unexpectedly');
+    chatSocket.send(JSON.stringify({
+        'message': message
+    }));
 };
 
 chatSocket.onmessage = function (e) {
     const data = JSON.parse(e.data);
-    document.getElementById('chat-log').innerHTML += (data.message + '<br>');
+    document.getElementById('chat-log').innerHTML += (data.message);
     window.scrollTo(0, document.body.scrollHeight);
-};
-
-chatSocket.onclose = function (e) {
-    console.error('Chat socket closed unexpectedly');
 };
 
 document.querySelector('#chat-message-input').focus();
@@ -35,8 +32,16 @@ document.querySelector('#chat-message-input').onkeyup = function (e) {
 document.querySelector('#chat-message-submit').onclick = function (e) {
     const messageInputDom = document.querySelector('#chat-message-input');
     const message = messageInputDom.value;
+    var nickname_value = document.getElementById("nickname").innerHTML;
+
+    if (nickname_value == "balgish") {
+        var nickname = nickname_value.fontcolor("blue")
+    } else {
+        var nickname = nickname_value.fontcolor("red")
+    }
+
     if (message) {
-        const message_combination = nickname + ": " + message;
+        const message_combination = nickname + ": " + message + "<br>";
         chatSocket.send(JSON.stringify({
             'message': message_combination
         }));
