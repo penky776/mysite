@@ -1,14 +1,17 @@
 const chatSocket = new WebSocket("ws://" + window.location.host + "/ws/hello/");
-const nickname_value = document.getElementById("nickname").innerHTML;
 
+const nicknames = [];
+const nickname_value = document.getElementById("nickname").innerHTML;
 if (nickname_value == "balgish") {
-    var nickname = nickname_value.fontcolor("blue")
+    var initial_nick = nickname_value.fontcolor("blue");
 } else {
-    var nickname = nickname_value.fontcolor("red")
+    var initial_nick = nickname_value.fontcolor("red");
 }
 
+nicknames[0] = initial_nick;
+
 chatSocket.onopen = function (e) {
-    const message = "<b>" + nickname + "<i> has logged in!</i></b><br>";
+    const message = "<br><b>" + initial_nick + "<i> has logged in!</i></b><br><br>";
     console.log(nickname_value + " has logged in!");
     chatSocket.send(JSON.stringify({
         'message': message
@@ -16,11 +19,7 @@ chatSocket.onopen = function (e) {
 };
 
 chatSocket.onclose = function (e) {
-    const message = "<b>" + nickname + "<i> has logged out!</i></b><br>";
     console.error('Chat socket closed unexpectedly');
-    chatSocket.send(JSON.stringify({
-        'message': message
-    }));
 };
 
 chatSocket.onmessage = function (e) {
@@ -41,12 +40,24 @@ document.querySelector('#chat-message-submit').onclick = function (e) {
     const message = messageInputDom.value;
 
     if (message) {
+        if (message.startsWith("/nickname change")) {
+            const nickname_value = message.slice(17);
+            if (nickname_value == "balgish") {
+                var new_nick = nickname_value.fontcolor("blue");
+            } else {
+                var new_nick = nickname_value.fontcolor("red");
+            }
+            nicknames.push(new_nick);
+        }
+        const nicknames_length = nicknames.length;
+        const nickname = nicknames[nicknames_length - 1];
         const message_combination = nickname + ": " + message + "<br>";
         chatSocket.send(JSON.stringify({
             'message': message_combination
         }));
         messageInputDom.value = "";
     }
+
 };
 
 document.querySelector('#dark_mode').onclick = function (e) {
