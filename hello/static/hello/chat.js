@@ -35,10 +35,15 @@ chatSocket.onclose = function (e) {
 
 chatSocket.onmessage = function (e) {
     const data = JSON.parse(e.data);
-    document.getElementById('chat-log').innerHTML += (data.message);
+    const message = data.message
+    const stripped_message = message.replace(/(<([^>]+)>)/gi, "");
+    document.getElementById('chat-log').innerHTML += (message);
     window.scrollTo(0, document.body.scrollHeight);
     if (document[hidden]) {
-        alert("new message!");
+        const notif = new Notification('New message!', {
+            body: stripped_message
+        });
+        setTimeout(() => notif.close(), 10 * 1000);
     }
 };
 
@@ -50,6 +55,7 @@ document.querySelector('#chat-message-input').onkeyup = function (e) {
 };
 
 document.querySelector('#chat-message-submit').onclick = function (e) {
+    Notification.requestPermission();
     const messageInputDom = document.querySelector('#chat-message-input');
     const message = messageInputDom.value;
 
