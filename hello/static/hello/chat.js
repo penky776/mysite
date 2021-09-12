@@ -77,7 +77,6 @@ document.querySelector('#chat-message-submit').onclick = function (e) {
         }));
         messageInputDom.value = "";
     }
-
 };
 
 document.querySelector('#dark_mode').onclick = function (e) {
@@ -90,5 +89,4 @@ document.querySelector('#dark_mode').onclick = function (e) {
         document.body.style.color = "black";
         document.getElementById("dark_mode").innerHTML = "Dark"
     }
-
 }
