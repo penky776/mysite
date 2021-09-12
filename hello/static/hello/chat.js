@@ -35,7 +35,7 @@ chatSocket.onclose = function (e) {
 
 chatSocket.onmessage = function (e) {
     const data = JSON.parse(e.data);
-    const message = data.message
+    const message = data.message;
     const stripped_message = message.replace(/(<([^>]+)>)/gi, "");
     document.getElementById('chat-log').innerHTML += (message);
     window.scrollTo(0, document.body.scrollHeight);
