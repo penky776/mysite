@@ -7,8 +7,19 @@ if (nickname_value == "balgish") {
 } else {
     var initial_nick = nickname_value.fontcolor("red");
 }
-
 nicknames[0] = initial_nick;
+
+var hidden, visibiltyChange;
+if (typeof document.hidden !== "undefined") {
+    hidden = "hidden";
+    visibiltyChange = "visibilitychange";
+} else if (typeof document.msHidden !== "undefined") {
+    hidden = "msHidden";
+    visibilityChange = "msvisibilitychange";
+} else if (typeof document.webkitHidden !== "undefined") {
+    hidden = "webkitHidden";
+    visibilityChange = "webkitvisibilitychange";
+}
 
 chatSocket.onopen = function (e) {
     const message = "<br><b>" + initial_nick + "<i> has logged in!</i></b><br><br>";
@@ -26,6 +37,9 @@ chatSocket.onmessage = function (e) {
     const data = JSON.parse(e.data);
     document.getElementById('chat-log').innerHTML += (data.message);
     window.scrollTo(0, document.body.scrollHeight);
+    if (document[hidden]) {
+        alert("new message!");
+    }
 };
 
 document.querySelector('#chat-message-input').focus();
