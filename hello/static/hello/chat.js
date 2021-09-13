@@ -22,7 +22,7 @@ if (typeof document.hidden !== "undefined") {
 }
 
 chatSocket.onopen = function (e) {
-    const message = "<br><b>" + initial_nick + "<i> has logged in!</i></b><br><br>";
+    const message = "<br><b>" + initial_nick + "<i> has logged in!</i></b><br>";
     console.log(nickname_value + " has logged in!");
     chatSocket.send(JSON.stringify({
         'message': message
@@ -57,23 +57,26 @@ document.querySelector('#chat-message-input').onkeyup = function (e) {
 document.querySelector('#chat-message-submit').onclick = function (e) {
     Notification.requestPermission();
     const messageInputDom = document.querySelector('#chat-message-input');
-    const message = messageInputDom.value;
+    const message_value = messageInputDom.value;
 
-    if (message) {
-        if (message.startsWith("/nickname change")) {
-            const nickname_value = message.slice(17);
+    if (message_value) {
+        if (message_value.startsWith("/nickname change")) {
+            const nickname_value = message_value.slice(17);
             if (nickname_value == "balgish") {
                 var new_nick = nickname_value.fontcolor("blue");
             } else {
                 var new_nick = nickname_value.fontcolor("red");
             }
             nicknames.push(new_nick);
+            const new_nickname = nicknames[nicknames.length - 1];
+            const old_nickname = nicknames[nicknames.length - 2];
+            var message = "<b>" + old_nickname + "<i> changed their nickname to </i>" + new_nickname + "</b><br>";
+        } else {
+            const nickname = nicknames[nicknames.length - 1];
+            var message = nickname + ": " + message_value + "<br>";
         }
-        const nicknames_length = nicknames.length;
-        const nickname = nicknames[nicknames_length - 1];
-        const message_combination = nickname + ": " + message + "<br>";
         chatSocket.send(JSON.stringify({
-            'message': message_combination
+            'message': message
         }));
         messageInputDom.value = "";
     }
