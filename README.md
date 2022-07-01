@@ -1,5 +1,5 @@
 # mysite
-minimal as fuck
+minimal chat server
 
 ### Run these commands on your terminal
 
